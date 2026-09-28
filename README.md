@@ -16,19 +16,22 @@ sodachi/support.html    サポート・FAQ
 
 新しいアプリは `<app>/` ディレクトリを増やして、トップの一覧にカードを足す。
 
-## 公開（Cloudflare Pages・無料）
+## 公開（Cloudflare Workers 静的アセット・無料）
 
-1. このディレクトリを GitHub に push する（`gh repo create pranaedge-site --public --source=. --push`）
-2. Cloudflare ダッシュボード → Workers & Pages → 作成 → Pages → 「Git に接続」で `pranaedge-site` を選ぶ
-   - フレームワークプリセット: なし / ビルドコマンド: 空 / ビルド出力ディレクトリ: `/`
-3. デプロイ後、Pages プロジェクトの「カスタムドメイン」で `pranaedge.com` と `www.pranaedge.com` を追加（DNS は自動設定される）
-4. 以後は `main` に push するだけで自動デプロイ
+`wrangler.jsonc` に設定済み。Cloudflare にログイン済みの Mac（`npx wrangler whoami` で確認）なら、次の1コマンドで公開される。
 
-Git を使わない場合は、同じ画面の「アセットをアップロード」でこのフォルダをドラッグしても公開できる。
+```bash
+npx wrangler deploy
+```
+
+- カスタムドメイン `pranaedge.com` / `www.pranaedge.com` は `wrangler.jsonc` の `routes` で割当済み（DNS は自動）
+- `.assetsignore` に書いたファイル（README・設定ファイル・.git）は公開されない
+- `.html` 付きの URL は拡張子なしの URL にリダイレクトされる（例: `/sodachi/privacy.html` → `/sodachi/privacy`）。リンクは拡張子なしで書く
+- GitHub（mastom1/pranaedge-site）はソース管理用。push しても自動デプロイはされないので、更新したら `npx wrangler deploy` を実行する
 
 ## アプリ側で使うURL
 
-- 利用規約: https://pranaedge.com/sodachi/terms.html
-- プライバシーポリシー: https://pranaedge.com/sodachi/privacy.html
-- サポート（App Store のサポートURL）: https://pranaedge.com/sodachi/support.html
+- 利用規約: https://pranaedge.com/sodachi/terms
+- プライバシーポリシー: https://pranaedge.com/sodachi/privacy
+- サポート（App Store のサポートURL）: https://pranaedge.com/sodachi/support
 - マーケティングURL: https://pranaedge.com/sodachi/
